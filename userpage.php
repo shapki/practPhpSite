@@ -42,14 +42,14 @@
             'foto' => '',
             'date_of_creation' => '',
             'administrator' => 0
-        ]; 
+        ];
     } else {
         $user = [
             'id' => $id,
             'login' => $login,
             'first_name' => $first_name,
             'last_name' => $last_name,
-            'company' => $company,
+            'company' => html_entity_decode($company, ENT_QUOTES, 'UTF-8'),
             'e_mail' => $e_mail,
             'foto' => $foto,
             'date_of_creation' => $date_of_creation,

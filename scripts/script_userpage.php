@@ -20,8 +20,8 @@
     function createLoadingIndicator() {
         const loadingDiv = document.createElement('div');
         loadingDiv.id = 'loadingIndicator';
-        loadingDiv.innerHTML = '<div class="loading-spinner">Загрузка...</div>';
-        loadingDiv.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:5px; z-index:10000;';
+        loadingDiv.innerHTML = '<div class="loading-spinner"></div>';
+        loadingDiv.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); padding:20px; border-radius:5px; z-index:10000; display:flex; align-items:center;';
         document.body.appendChild(loadingDiv);
         return loadingDiv;
     }
@@ -161,15 +161,10 @@
     // Функция для работы с модальными окнами
     function openEditModal(type) {
         if (type === 'email') {
-            // Предзаполняем текущее значение
-            document.getElementById('editEmail').value = '<?php echo addslashes($user["e_mail"] ?? ""); ?>';
             openModal('emailModal');
         } else if (type === 'company') {
-            document.getElementById('editCompany').value = '<?php echo addslashes($user["company"] ?? ""); ?>';
             openModal('companyModal');
         } else if (type === 'name') {
-            document.getElementById('editFirstName').value = '<?php echo addslashes($user["first_name"] ?? ""); ?>';
-            document.getElementById('editLastName').value = '<?php echo addslashes($user["last_name"] ?? ""); ?>';
             openModal('nameModal');
         }
     }
@@ -297,12 +292,5 @@
         formData.append('user_id', <?php echo $user['id']; ?>);
         
         sendUpdateRequest(formData, 'Настройки успешно обновлены');
-    }
-
-    // Автоматическое закрытие модальных окон после успешного обновления
-    function closeModalOnSuccess(modalId) {
-        setTimeout(() => {
-            closeModal(modalId);
-        }, 1000);
     }
 </script>
