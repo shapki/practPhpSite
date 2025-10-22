@@ -42,7 +42,7 @@
             'foto' => '',
             'date_of_creation' => '',
             'administrator' => 0
-        ];
+        ]; 
     } else {
         $user = [
             'id' => $id,
