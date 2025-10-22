@@ -1,0 +1,125 @@
+.userpage-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.profile-card {
+    background-color: #f5e8c8;
+    border: 5px solid #8c5c3f;
+    border-radius: 15px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #d4b37c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+    font-weight: bold;
+    font-size: 40px;
+    color: #523a28;
+    border: 4px solid #8c5c3f;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 2rem;
+    color: #523a28;
+    margin-bottom: 5px;
+}
+
+.profile-info {
+    margin-bottom: 30px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e9d8b6;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.info-item:hover {
+    background-color: #d4b37c;
+}
+
+.info-label {
+    font-weight: bold;
+    min-width: 100px;
+    margin-right: 15px;
+}
+
+.info-value {
+    flex-grow: 1;
+}
+
+.edit-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    fill: #8c5c3f;
+}
+
+.profile-footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 2px dashed #8c5c3f;
+    color: #8c5c3f;
+    font-size: 0.9rem;
+}
+
+.settings-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    fill: #8c5c3f;
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .info-label {
+        margin-bottom: 5px;
+    }
+}

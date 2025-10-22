@@ -1,0 +1,120 @@
+.login-header {
+    background: linear-gradient(135deg, #8c5c3f 0%, #523a28 100%);
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 5px solid #d4b37c;
+}
+
+.logo {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 2.8rem;
+    color: #f5e8c8;
+    text-shadow: 3px 3px 0 #523a28;
+    letter-spacing: 4px;
+}
+
+.sublogo-text {
+    margin-top: -15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #f5e8c8;
+}
+
+.login-footer {
+    background: linear-gradient(135deg, #523a28 0%, #8c5c3f 100%);
+    padding: 15px 20px;
+    text-align: center;
+    color: #f5e8c8;
+    border-top: 5px solid #d4b37c;
+}
+
+.login-main {
+    padding: 20px;
+}
+
+.why-authorize {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.contact-info {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.auth-form {
+    background-color: #e9d8b6;
+    padding: 20px;
+    border: 5px solid #8c5c3f;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .auth-form {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+    }
+
+    .sublogo-text {
+        margin-top: -10px;
+        font-size: 0.7rem;
+    }
+
+    .why-authorize {
+        font-size: 0.7rem;
+    }
+    
+    .login-main {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.8rem;
+    }
+
+    .sublogo-text {
+        margin-top: -7px;
+        font-size: 0.7rem;
+        line-height: 1.0;
+    }
+
+    .login-header, .login-footer {
+        padding: 10px 15px;
+    }
+
+    .why-authorize {
+        margin-top: 5px;
+        font-size: 0.7rem;
+        line-height: 1.0;
+    }
+    
+    .contact-info {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .sublogo-text {
+        margin-top: -6px;
+        font-size: 0.6rem;
+        line-height: 0.9;
+    }
+
+    .why-authorize {
+        margin-top: 5px; 
+        font-size: 0.5rem;
+        line-height: 1.0;
+    }
+}
