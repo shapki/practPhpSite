@@ -52,27 +52,6 @@
     </div>
 </div>
 
-<!-- Окно редактирования почты -->
-<div class="modal-overlay" id="emailModal">
-    <div class="modal">
-        <div class="modal-header">
-            Редактирование почты
-            <button class="modal-close" onclick="closeModal('emailModal')">&times;</button>
-        </div>
-        <div class="modal-content">
-            <div class="form-group">
-                <label for="editEmail">Почта:</label>
-                <input type="email" id="editEmail" value="<?php echo htmlspecialchars($user['e_mail']); ?>">
-                <div class="error-message" id="emailError"></div>
-            </div>
-            <div class="modal-buttons">
-                <button class="style1-btn" onclick="saveEmail()">Сохранить</button>
-                <button class="style3-btn" onclick="closeModal('emailModal')">Отмена</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Окно редактирования компании -->
 <div class="modal-overlay" id="companyModal">
     <div class="modal">
@@ -101,17 +80,24 @@
             Настройки аккаунта
             <button class="modal-close" onclick="closeModal('settingsModal')">&times;</button>
         </div>
-        <div class="modal-content">                
+        <div class="modal-content">
+            <div class="form-group">
+                <label for="currentPassword">Текущий пароль:</label>
+                <input type="password" id="currentPassword">
+                <div class="error-message" id="currentPasswordError"></div>
+            </div>  
+
             <div class="form-group">
                 <label for="newLogin">Логин:</label>
                 <input type="text" id="newLogin" value="<?php echo htmlspecialchars($user['login']); ?>">
             </div>
-            
+
             <div class="form-group">
-                <label for="currentPassword">Текущий пароль:</label>
-                <input type="password" id="currentPassword">
+                <label for="editEmail">Почта:</label>
+                <input type="email" id="editEmail" value="<?php echo htmlspecialchars($user['e_mail']); ?>">
+                <div class="error-message" id="emailError"></div>
             </div>
-            
+
             <div class="split-fields">                    
                 <div class="form-group">
                     <label for="newPassword">Новый пароль:</label>

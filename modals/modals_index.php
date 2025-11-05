@@ -40,13 +40,14 @@
             </div>
 
             <div class="form-group">
-                <label for="company">Компания [Не обязательно]:</label>
-                <input type="text" id="company" name="company">
+                <label for="registr_email">Почта:</label>
+                <input type="email" id="registr_email" name="email">
+                <div class="error-message" id="registr_email_error"></div>
             </div>
 
             <div class="form-group">
-                <label for="registr_email">Почта [Не обязательно]:</label>
-                <input type="email" id="registr_email" name="registr_email">
+                <label for="company">Компания [Не обязательно]:</label>
+                <input type="text" id="company" name="company">
             </div>
             
             <div class="decoration"></div>
@@ -74,8 +75,8 @@
             </div>
             
             <div class="form-group">
-                <label for="forgot_email">Email:</label>
-                <input type="email" id="forgot_email" name="forgot_email" required>
+                <label for="forgot_email">Почта:</label>
+                <input type="email" id="forgot_email" name="email" required>
             </div>
             
             <div class="decoration"></div>
@@ -85,6 +86,38 @@
                 <button type="button" class="style3-btn" id="cancelForgot">Отмена</button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Окно сброса пароля -->
+<div id="resetPasswordModal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            Сброс пароля
+            <button type="button" class="modal-close" onclick="closeResetPasswordModal()">×</button>
+        </div>
+        <div class="modal-content">
+            <form id="resetPasswordForm">
+                <input type="hidden" id="reset_token" name="token">
+                <input type="hidden" id="reset_user_id" name="user_id">
+                <input type="hidden" name="action" value="reset_password">
+                
+                <div class="form-group">
+                    <label for="new_password">Новый пароль:</label>
+                    <input type="password" id="new_password" name="new_password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reset_confirm_password">Подтвердите пароль:</label>
+                    <input type="password" id="reset_confirm_password" name="reset_confirm_password" required>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="submit" class="style1-btn">Сменить пароль</button>
+                    <button type="button" class="style3-btn" onclick="closeResetPasswordModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

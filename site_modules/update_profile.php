@@ -7,7 +7,7 @@
 
     function sendJsonResponse($success, $message = '') {
         echo json_encode([
-            'success' => $success,
+            'isError' => $success,
             'message' => $message
         ], JSON_UNESCAPED_UNICODE);
         exit();

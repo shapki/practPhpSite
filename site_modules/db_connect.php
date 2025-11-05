@@ -14,7 +14,7 @@
         $mysqli->set_charset("utf8mb4");
         
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Ошибка подключения к Базе Данных']);
+        echo json_encode(['isError' => false, 'message' => 'Ошибка подключения к Базе Данных']);
         exit();
     }
 ?>

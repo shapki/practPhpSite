@@ -33,10 +33,12 @@ const confirmInput = document.getElementById('confirm_password');
 const loginInput = document.getElementById('reg_login');
 const firstNameInput = document.getElementById('first_name');
 const lastNameInput = document.getElementById('last_name');
+const regEmailInput = document.getElementById('registr_email');
 const passwordError = document.getElementById('passwordError');
 const confirmError = document.getElementById('confirmError');
 const loginError = document.getElementById('loginError');
 const fullNameError = document.getElementById('fullNameError');
+const regEmailError = document.getElementById('registr_email_error');
 
 // Функция для показа/скрытия индикатора загрузки
 function showFormLoading(form, show = true) {
@@ -50,6 +52,24 @@ function showFormLoading(form, show = true) {
     } else {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
+    }
+}
+
+function validateEmail() {
+    const email = regEmailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (email === '') {
+        regEmailError.textContent = 'Почта не должена быть пустой';
+        regEmailError.style.display = 'block';
+        return false;
+    } else if (!emailRegex.test(email)) {
+        regEmailError.textContent = 'Введите корректный почтовый адрес';
+        regEmailError.style.display = 'block';
+        return false;
+    } else {
+        regEmailError.style.display = 'none';
+        return true;
     }
 }
 
@@ -88,6 +108,10 @@ registerForm.addEventListener('submit', function(e) {
         isValid = false;
     } else {
         fullNameError.style.display = 'none';
+    }
+
+    if (!validateEmail()) {
+        isValid = false;
     }
     
     if (isValid) {
@@ -132,22 +156,22 @@ function submitForm(form) {
                     window.location.href = 'userpage.php';
                 }
             } else {
-                showMessage('Успех', data.message);
+                showMessage(data.message, 'success');
                 if (form.id === 'registerForm') {
-                    closeModal(registerModal);
+                    closeModal('registerModal');
                     form.reset();
                 } else if (form.id === 'forgotForm') {
-                    closeModal(forgotModal);
+                    closeModal('forgotModal');
                     form.reset();
                 }
             }
         } else {
-            showMessage(data.message, true);
+            showMessage(data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Ошибка:', error);
-        showMessage('Произошла неизвестная ошибка при отправке формы', true);
+        showMessage('Произошла неизвестная ошибка', 'error');
     })
     .finally(() => {
         showFormLoading(form, false);

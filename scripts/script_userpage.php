@@ -160,20 +160,13 @@
 
     // Функция для работы с модальными окнами
     function openEditModal(type) {
-        if (type === 'email') {
-            openModal('emailModal');
-        } else if (type === 'company') {
+        if (type === 'company') {
             openModal('companyModal');
         } else if (type === 'name') {
             openModal('nameModal');
         }
     }
-
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
+    
     function sendUpdateRequest(formData, successMessage) {
         showLoading(true);
         
@@ -232,26 +225,6 @@
         sendUpdateRequest(formData, 'Имя успешно обновлено');
     }
 
-    function saveEmail() {
-        const email = document.getElementById('editEmail').value.trim();
-        const errorElement = document.getElementById('emailError');
-        
-        if (email && !validateEmail(email)) {
-            errorElement.textContent = 'Введите корректный адрес почты';
-            errorElement.style.display = 'block';
-            return;
-        }
-        
-        errorElement.style.display = 'none';
-        
-        const formData = new FormData();
-        formData.append('action', 'update_email');
-        formData.append('email', email);
-        formData.append('user_id', <?php echo $user['id']; ?>);
-        
-        sendUpdateRequest(formData, 'Почта успешно обновлена');
-    }
-
     function saveCompany() {
         const company = document.getElementById('editCompany').value.trim();
         
@@ -266,23 +239,40 @@
     function saveSettings() {
         const newLogin = document.getElementById('newLogin').value.trim();
         const currentPassword = document.getElementById('currentPassword').value;
+        const currentPasswordError = document.getElementById('currentPasswordError');
         const newPassword = document.getElementById('newPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-        const errorElement = document.getElementById('passwordError');
+        const passwordError = document.getElementById('passwordError');
+        const editEmailInput = document.getElementById('editEmail');
+        const emailError = document.getElementById('emailError');
+        const email = editEmailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
         if (newPassword && newPassword !== confirmPassword) {
-            errorElement.textContent = 'Пароли не совпадают';
-            errorElement.style.display = 'block';
+            passwordError.textContent = 'Пароли не совпадают';
+            passwordError.style.display = 'block';
             return;
         }
         
         if (!currentPassword) {
-            errorElement.textContent = 'Введите текущий пароль';
-            errorElement.style.display = 'block';
+            currentPasswordError.textContent = 'Введите текущий пароль';
+            currentPasswordError.style.display = 'block';
             return;
         }
         
-        errorElement.style.display = 'none';
+        if (email === '') {
+            emailError.textContent = 'Почта не должна быть пустой';
+            emailError.style.display = 'block';
+            return;
+        } else if (!emailRegex.test(email)) {
+            emailError.textContent = 'Введите корректный почтовый адрес';
+            emailError.style.display = 'block';
+            return;
+        }
+        
+        passwordError.style.display = 'none';
+        currentPasswordError.style.display = 'none';
+        emailError.style.display = 'none';
         
         const formData = new FormData();
         formData.append('action', 'update_settings');
