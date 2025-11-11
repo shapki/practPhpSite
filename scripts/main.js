@@ -13,7 +13,7 @@ function closeModal(modal) {
 }
 
 // Функция показа сообщения
-function showMessage(message, isError = false) {
+function showMessage(message, isError = false, redirectUrl = null) {
     console.log(isError ? 'Ошибка:' : 'Успех:', message);
     const messageContent = document.getElementById('messageContent');
     const messageHeader = document.querySelector('#messageModal .modal-header');
@@ -22,6 +22,33 @@ function showMessage(message, isError = false) {
         messageContent.innerHTML = `<p class="${isError ? 'error' : 'success'}">${message}</p>`;
         messageHeader.textContent = isError ? 'Ошибка' : 'Успех';
         openModal('messageModal');
+        
+        if (redirectUrl) {
+            const messageOkBtn = document.getElementById('messageOkBtn');
+            const originalText = messageOkBtn.textContent;
+            messageOkBtn.textContent = 'Перейти';
+            
+            const newOkBtn = messageOkBtn.cloneNode(true);
+            messageOkBtn.parentNode.replaceChild(newOkBtn, messageOkBtn);
+            
+            newOkBtn.addEventListener('click', function() {
+                closeModal('messageModal');
+                window.location.href = redirectUrl;
+            });
+            
+            setTimeout(() => {
+                closeModal('messageModal');
+                window.location.href = redirectUrl;
+            }, 100);
+        } else {
+            const messageOkBtn = document.getElementById('messageOkBtn');
+            const newOkBtn = messageOkBtn.cloneNode(true);
+            messageOkBtn.parentNode.replaceChild(newOkBtn, messageOkBtn);
+            
+            newOkBtn.addEventListener('click', function() {
+                closeModal('messageModal');
+            });
+        }
     }
 }
 

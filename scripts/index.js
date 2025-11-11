@@ -137,6 +137,11 @@ function submitForm(form) {
     
     const formData = new FormData(form);
     
+    console.log('Отправляемые данные:');
+    for (let [key, value] of formData.entries()) {
+        console.log(key + ': ' + value);
+    }
+    
     fetch('/site_modules/auth.php', {
         method: 'POST',
         body: formData
@@ -148,30 +153,33 @@ function submitForm(form) {
         return response.json();
     })
     .then(data => {
+        console.log('Ответ от сервера:', data);
+        
         if (data.success) {
-            if (form.id === 'loginForm' || form.id === 'registerForm') {
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    window.location.href = 'userpage.php';
-                }
+            if (data.redirect) {
+                showMessage(data.message, false, data.redirect);
             } else {
-                showMessage(data.message, 'success');
-                if (form.id === 'registerForm') {
-                    closeModal('registerModal');
-                    form.reset();
-                } else if (form.id === 'forgotForm') {
-                    closeModal('forgotModal');
-                    form.reset();
+                showMessage(data.message, false);
+                
+                if (form.id === 'forgotForm') {
+                    setTimeout(() => {
+                        closeModal('forgotModal');
+                        form.reset();
+                    }, 1500);
+                } else if (form.id === 'registerForm') {
+                    setTimeout(() => {
+                        closeModal('registerModal');
+                        form.reset();
+                    }, 1500);
                 }
             }
         } else {
-            showMessage(data.message, 'error');
+            showMessage(data.message, true);
         }
     })
     .catch(error => {
         console.error('Ошибка:', error);
-        showMessage('Произошла неизвестная ошибка', 'error');
+        showMessage('Произошла ошибка при отправке формы', true);
     })
     .finally(() => {
         showFormLoading(form, false);

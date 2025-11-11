@@ -362,6 +362,24 @@ input[type="file"]::-webkit-file-upload-button:hover {
     display: block;
 }
 
+.page-header .loading-spinner {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.auth-buttons .style3-btn {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.user-info {
+    position: relative;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+}
+
 @media (max-width: 768px) {
     body {
         padding: 15px;

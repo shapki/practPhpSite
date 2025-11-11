@@ -28,25 +28,25 @@ function sendEmail($email, $type, $additional_data = []) {
             font-family: 'Arial Black', sans-serif;
             font-size: 2.8rem;
             color: #f5e8c8;
-            text-shadow: 3px 3px 0 #523a28;
+            text-shadow: 3px 3px 0 #523a28 !important;
             letter-spacing: 4px;
         }
         .sublogo-text {
             margin-top: -15px;
+        }
+        .sublogo-text p {
             font-size: 0.9rem;
             line-height: 1.6;
             text-align: center;
-            color: #f5e8c8;
+            color: #f5e8c8 !important;
         }
         .email-content {
             padding: 25px;
             background-color: #f5e8c8;
         }
         .email-footer {
-            background: linear-gradient(135deg, #523a28 0%, #8c5c3f 100%);
             padding: 12px 20px;
             text-align: center;
-            border-top: 5px solid #d4b37c;
         }
         .email-footer p {
             color: #f5e8c8 !important;
@@ -205,7 +205,7 @@ function sendEmail($email, $type, $additional_data = []) {
     ";
     
     $headers = "Content-type: text/html; charset=utf-8\r\n";
-    $headers .= "From: MCM Systems <admin@pr-shapkin.сделай.site>\r\n";
+    $headers .= "From: MCM Systems <admin@pr-shapkin.xn--80ahdri7a.site>\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
     
     return mail($email, $subject, $message, $headers);

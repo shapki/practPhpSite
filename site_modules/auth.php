@@ -17,16 +17,16 @@
                 handleForgotPassword($mysqli);
                 break;
             default:
-                echo json_encode(['isError' => false, 'message' => 'Неизвестное действие']);
+                echo json_encode(['success' => false, 'message' => 'Неизвестное действие']);
                 break;
         }
     }
 
-    function trackLoginAttempt($username, $isError) {
+    function trackLoginAttempt($username, $success) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $key = 'login_attempts_' . md5($ip . $username);
         
-        if ($isError) {
+        if ($success) {
             $_SESSION[$key] = 0;
             return;
         }
@@ -60,7 +60,7 @@
         $remember = filter_input(INPUT_POST, 'remember', FILTER_VALIDATE_BOOLEAN) ?? false;
         
         if (empty($username) || empty($password)) {
-            echo json_encode(['isError' => false, 'message' => 'Заполните все поля']);
+            echo json_encode(['success' => false, 'message' => 'Заполните все поля']);
             return;
         }
         
@@ -84,10 +84,10 @@
                 setcookie('remember_user', $id, time() + (30 * 24 * 60 * 60), '/');
             }
 
-            echo json_encode(['isError' => true, 'message' => 'Авторизация успешна', 'redirect' => 'userpage.php?id=' . $id]);
+            echo json_encode(['success' => true, 'message' => 'Авторизация успешна', 'redirect' => 'userpage.php?id=' . $id]);
         } else {
             trackLoginAttempt($username, false);
-            echo json_encode(['isError' => false, 'message' => 'Неверный логин или пароль']);
+            echo json_encode(['success' => false, 'message' => 'Неверный логин или пароль']);
         }
         $stmt->close();
     }
@@ -108,7 +108,7 @@
         
         if ($stmt->num_rows > 0) {
             $stmt->close();
-            echo json_encode(['isError' => false, 'message' => 'Пользователь с таким логином уже существует']);
+            echo json_encode(['success' => false, 'message' => 'Пользователь с таким логином уже существует']);
             return;
         }
         $stmt->close();
@@ -135,13 +135,13 @@
 
             if (!empty($email)) {
                 include 'send_email.php';
-                sendEmail($email, 'register_isError');
+                sendEmail($email, 'register_success');
             }
             
-            echo json_encode(['isError' => true, 'message' => 'Регистрация успешна! Вы автоматически вошли в систему.', 'redirect' => 'userpage.php?id=' . $user_id]);
+            echo json_encode(['success' => true, 'message' => 'Регистрация успешна! Вы автоматически вошли в систему.', 'redirect' => 'userpage.php?id=' . $user_id]);
             
         } catch (Exception $e) {
-            echo json_encode(['isError' => false, 'message' => 'Ошибка при регистрации: ' . $e->getMessage()]);
+            echo json_encode(['success' => false, 'message' => 'Ошибка при регистрации: ' . $e->getMessage()]);
         }
     }
 
@@ -150,7 +150,7 @@
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL) ?? '';
         
         if (empty($login) || empty($email)) {
-            echo json_encode(['isError' => false, 'message' => 'Заполните все поля']);
+            echo json_encode(['success' => false, 'message' => 'Заполните все поля']);
             return;
         }
         
@@ -172,9 +172,9 @@
             include 'send_email.php';
             sendEmail($email, 'forgot_password', ['reset_link' => $reset_link]);
             
-            echo json_encode(['isError' => false, 'message' => 'Инструкции по восстановлению пароля отправлены на вашу почту']);
+            echo json_encode(['success' => true, 'message' => 'Инструкции по восстановлению пароля отправлены на вашу почту']);
         } else {
-            echo json_encode(['isError' => false, 'message' => 'Пользователь с такими данными не найден']);
+            echo json_encode(['success' => false, 'message' => 'Пользователь с такими данными не найден']);
         }
         $stmt->close();
     }

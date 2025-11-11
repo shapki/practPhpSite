@@ -1,25 +1,19 @@
 <?php
     session_start();
 
-    // Уничтожаем все данные сессии
-    $_SESSION = array();
-
-    // Если требуется уничтожить куки, удаляем и их
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
-    }
-
-    // Уничтожаем сессию
+    session_unset();
     session_destroy();
 
-    // Удаляем куки запоминания пользователя
-    setcookie('remember_user', '', time() - 3600, '/');
+    if (isset($_COOKIE['remember_user'])) {
+        setcookie('remember_user', '', time() - 3600, '/');
+    }
 
-    // Перенаправляем на главную страницу
-    header('Location: /');
-    exit();
+    if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')) {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Выход выполнен успешно']);
+        exit;
+    } else {
+        header('Location: ../index.php');
+        exit;
+    }
 ?>

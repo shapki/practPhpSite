@@ -7,7 +7,7 @@
 
     function sendJsonResponse($success, $message = '') {
         echo json_encode([
-            'isError' => $success,
+            'success' => $success,
             'message' => $message
         ], JSON_UNESCAPED_UNICODE);
         exit();
@@ -135,40 +135,49 @@
         $new_login = filter_input(INPUT_POST, 'new_login', FILTER_SANITIZE_STRING) ?? '';
         $current_password = $_POST['current_password'] ?? '';
         $new_password = $_POST['new_password'] ?? '';
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL) ?? ''; // ДОБАВЬТЕ ЭТУ СТРОКУ
         
-        $new_login = trim($new_login);
+            $new_login = trim($new_login);
+            
+            if (empty($current_password)) {
+                sendJsonResponse(false, 'Введите текущий пароль');
+            }
+            
+            $stmt = $mysqli->prepare("SELECT password FROM user WHERE id = ?");
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $stmt->bind_result($db_password);
+            $stmt->fetch();
+            $stmt->close();
+            
+            if (!$db_password || !password_verify($current_password, $db_password)) {
+                sendJsonResponse(false, 'Неверный текущий пароль');
+            }
         
-        if (empty($current_password)) {
-            sendJsonResponse(false, 'Введите текущий пароль');
+        if (empty($email)) {
+            sendJsonResponse(false, 'Email не может быть пустым');
         }
-        
-        $stmt = $mysqli->prepare("SELECT password FROM user WHERE id = ?");
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $stmt->bind_result($db_password);
-        $stmt->fetch();
-        $stmt->close();
-        
-        if (!$db_password || !password_verify($current_password, $db_password)) {
-            sendJsonResponse(false, 'Неверный текущий пароль');
-        }
-        
+
         $updates = [];
         $params = [];
         $types = "";
         
+        $updates[] = "e_mail = ?";
+        $params[] = $email;
+        $types .= "s";
+        
         if (!empty($new_login)) {
-            $check_stmt = $mysqli->prepare("SELECT id FROM user WHERE login = ? AND id != ?");
-            $check_stmt->bind_param("si", $new_login, $user_id);
-            $check_stmt->execute();
-            $check_stmt->store_result();
-            
-            if ($check_stmt->num_rows > 0) {
+                $check_stmt = $mysqli->prepare("SELECT id FROM user WHERE login = ? AND id != ?");
+                $check_stmt->bind_param("si", $new_login, $user_id);
+                $check_stmt->execute();
+                $check_stmt->store_result();
+                
+                if ($check_stmt->num_rows > 0) {
+                    $check_stmt->close();
+                    sendJsonResponse(false, 'Этот логин уже занят');
+                }
                 $check_stmt->close();
-                sendJsonResponse(false, 'Этот логин уже занят');
-            }
-            $check_stmt->close();
-            
+    
             $updates[] = "login = ?";
             $params[] = $new_login;
             $types .= "s";
@@ -179,10 +188,6 @@
             $updates[] = "password = ?";
             $params[] = $hashed_password;
             $types .= "s";
-        }
-        
-        if (empty($updates)) {
-            sendJsonResponse(false, 'Не указаны данные для обновления');
         }
         
         $params[] = $user_id;
@@ -198,6 +203,7 @@
             if (!empty($new_login)) {
                 $_SESSION['username'] = $new_login;
             }
+            $_SESSION['email'] = $email;
             sendJsonResponse(true, 'Настройки успешно обновлены');
         } else {
             sendJsonResponse(false, 'Не удалось обновить настройки');

@@ -279,6 +279,7 @@
         formData.append('new_login', newLogin);
         formData.append('current_password', currentPassword);
         formData.append('new_password', newPassword);
+        formData.append('email', email);
         formData.append('user_id', <?php echo $user['id']; ?>);
         
         sendUpdateRequest(formData, 'Настройки успешно обновлены');
