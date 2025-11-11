@@ -27,12 +27,12 @@ function sendEmail($email, $type, $additional_data = []) {
         .logo {
             font-family: 'Arial Black', sans-serif;
             font-size: 2.8rem;
-            color: #f5e8c8;
+            color: #f5e8c8 !important;
             text-shadow: 3px 3px 0 #523a28 !important;
             letter-spacing: 4px;
         }
         .sublogo-text {
-            margin-top: -15px;
+            margin-top: -35px;
         }
         .sublogo-text p {
             font-size: 0.9rem;
