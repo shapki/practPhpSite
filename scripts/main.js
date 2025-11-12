@@ -52,6 +52,7 @@ function showMessage(message, isError = false, redirectUrl = null) {
     }
 }
 
+/*
 document.getElementById('messageOkBtn').addEventListener('click', function() {
     closeModal('messageModal');
-});
+});*/

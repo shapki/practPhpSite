@@ -1,9 +1,29 @@
 <?php
     session_start();
-
     if (!isset($_SESSION['user_id'])) {
-        header('Location: index.php');
-        exit();
+        if (isset($_COOKIE['remember_user'])) {
+            include 'site_modules/db_connect.php';
+            include 'site_modules/auth_cookie.php';
+            
+            $user_id = $_COOKIE['remember_user'];
+            $user_data = validateRememberCookie($user_id, $mysqli);
+            
+            if ($user_data) {
+                $_SESSION['user_id'] = $user_data['id'];
+                $_SESSION['username'] = $user_data['login'];
+                $_SESSION['first_name'] = $user_data['first_name'];
+                $_SESSION['last_name'] = $user_data['last_name'];
+                $_SESSION['is_admin'] = $user_data['administrator'];
+                $_SESSION['foto'] = $user_data['foto'];
+            } else {
+                setcookie('remember_user', '', time() - 3600, '/');
+                header('Location: index.php');
+                exit();
+            }
+        } else {
+            header('Location: index.php');
+            exit();
+        }
     }
 
     include 'site_modules/db_connect.php';

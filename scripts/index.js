@@ -137,11 +137,6 @@ function submitForm(form) {
     
     const formData = new FormData(form);
     
-    console.log('Отправляемые данные:');
-    for (let [key, value] of formData.entries()) {
-        console.log(key + ': ' + value);
-    }
-    
     fetch('/site_modules/auth.php', {
         method: 'POST',
         body: formData
@@ -150,11 +145,19 @@ function submitForm(form) {
         if (!response.ok) {
             throw new Error('Ошибка сети: ' + response.status);
         }
-        return response.json();
+        return response.text().then(text => {
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error('Невалидный JSON ответ:', text);
+                if (text.includes('Fatal error') || text.includes('Parse error')) {
+                    throw new Error('Ошибка на сервере');
+                }
+                throw new Error('Сервер вернул невалидный ответ');
+            }
+        });
     })
-    .then(data => {
-        console.log('Ответ от сервера:', data);
-        
+    .then(data => {        
         if (data.success) {
             if (data.redirect) {
                 showMessage(data.message, false, data.redirect);
@@ -179,7 +182,7 @@ function submitForm(form) {
     })
     .catch(error => {
         console.error('Ошибка:', error);
-        showMessage('Произошла ошибка при отправке формы', true);
+        showMessage('Произошла ошибка при отправке формы: ' + error.message, true);
     })
     .finally(() => {
         showFormLoading(form, false);

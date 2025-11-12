@@ -75,7 +75,7 @@
             </div>
             
             <div class="form-group">
-                <label for="forgot_email">Почта:</label>
+                <label for="forgot_email">Почта [Указанная в вашем профиле]:</label>
                 <input type="email" id="forgot_email" name="email" required>
             </div>
             
@@ -117,22 +117,6 @@
                     <button type="button" class="style3-btn" onclick="closeResetPasswordModal()">Отмена</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-<!-- Окно для сообщений -->
-<div class="modal-overlay message-modal" id="messageModal">
-    <div class="modal">
-        <div class="modal-header">
-            Сообщение
-            <button class="modal-close">&times;</button>
-        </div>
-        <div class="modal-content" id="messageContent">
-
-        </div>
-        <div class="modal-buttons">
-            <button type="button" class="style1-btn" id="messageOkBtn">OK</button>
         </div>
     </div>
 </div>
