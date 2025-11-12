@@ -60,7 +60,7 @@
                 setcookie('remember_user', $id, $cookie_expire, '/', '', false, true);
             } else {
                 if (isset($_COOKIE['remember_user'])) {
-                    setcookie('remember_user', '', time() - 3600, '/');
+                    setcookie('remember_user', '', time() + 3600, '/');
                 }
             }
     
